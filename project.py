@@ -187,28 +187,4 @@ DTM=CountVectorizer(max_features=30,stop_words="english")
 
 
 
-pd.DataFrame(X_DTM.toarray(),columns=DTM.get_feature_names_out()).head()
-
-try:
-  from sklearn.feature_extraction.text import TfidfVectorizer
-except ImportError:
-  try:
-    import streamlit as st
-    st.error("Missing dependency 'scikit-learn'. Add 'scikit-learn' to requirements.txt and redeploy, or run `pip install scikit-learn` locally.")
-    st.stop()
-  except Exception:
-    raise ImportError("Missing dependency 'scikit-learn'. Install with 'pip install scikit-learn' or add it to requirements.txt before deploying the Streamlit app.")
-
-tfidf=TfidfVectorizer(max_features=300,stop_words="english")
-
-X_tfidf=tfidf.fit_transform(sent['text'])
-
-pd.DataFrame(X_tfidf.toarray(),columns=tfidf.get_feature_names_out()).head()
-
-tfidf_bigrams=TfidfVectorizer(max_features=300,stop_words="english",ngram_range=(2,2))
-
-X_tfidf_bigrams=tfidf_bigrams.fit_transform(sent['text'])
-
-pd.DataFrame(X_tfidf_bigrams.toarray(),
-             columns=tfidf_bigrams.get_feature_names_out()).head()
 
