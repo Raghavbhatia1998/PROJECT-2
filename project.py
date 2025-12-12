@@ -7,8 +7,25 @@ Original file is located at
     https://colab.research.google.com/drive/1qR2KRiAHGRBrylYWc8G7nUL5Zm2D2KVu
 """
 
-import pandas as pd
-import numpy as np
+try:
+  import pandas as pd
+except ImportError:
+  try:
+    import streamlit as st
+    st.error("Missing dependency 'pandas'. Add 'pandas' to requirements.txt and redeploy, or run `pip install pandas` locally.")
+    st.stop()
+  except Exception:
+    raise ImportError("Missing dependency 'pandas'. Install with 'pip install pandas' or add it to requirements.txt before deploying the Streamlit app.")
+
+try:
+  import numpy as np
+except ImportError:
+  try:
+    import streamlit as st
+    st.error("Missing dependency 'numpy'. Add 'numpy' to requirements.txt and redeploy, or run `pip install numpy` locally.")
+    st.stop()
+  except Exception:
+    raise ImportError("Missing dependency 'numpy'. Install with 'pip install numpy' or add it to requirements.txt before deploying the Streamlit app.")
 try:
   import matplotlib.pyplot as plt
 except ImportError:
@@ -31,11 +48,23 @@ for page in reader.pages:
   text+=page.extract_text() or ''
 documents.append(text)
 
-import nltk
+try:
+  import nltk
+except ImportError:
+  try:
+    import streamlit as st
+    st.error("Missing dependency 'nltk'. Add 'nltk' to requirements.txt and redeploy, or run `pip install nltk` locally.")
+    st.stop()
+  except Exception:
+    raise ImportError("Missing dependency 'nltk'. Install with 'pip install nltk' or add it to requirements.txt before deploying the Streamlit app.")
+
 import re
-nltk.download('stopwords')
-nltk.download('punkt')
-nltk.download('punkt_tab')
+try:
+  nltk.download('stopwords')
+  nltk.download('punkt')
+  nltk.download('punkt_tab')
+except Exception:
+  pass
 
 def preprocess_text(text):
   text=text.lower()
@@ -49,7 +78,15 @@ from nltk.tokenize import sent_tokenize,word_tokenize
 
 sent=sent_tokenize(str(doc_txt))
 
-from textblob import TextBlob
+try:
+  from textblob import TextBlob
+except ImportError:
+  try:
+    import streamlit as st
+    st.error("Missing dependency 'textblob'. Add 'textblob' to requirements.txt and redeploy, or run `pip install textblob` locally.")
+    st.stop()
+  except Exception:
+    raise ImportError("Missing dependency 'textblob'. Install with 'pip install textblob' or add it to requirements.txt before deploying the Streamlit app.")
 def analyze_sentiment(text):
     analysis=TextBlob(text)
     if analysis.sentiment.polarity>0:
@@ -97,13 +134,29 @@ freq_words=FreqDist(msme_words)
 
 freq_words.most_common(20)
 
-from wordcloud import WordCloud
+try:
+  from wordcloud import WordCloud
+except ImportError:
+  try:
+    import streamlit as st
+    st.error("Missing dependency 'wordcloud'. Add 'wordcloud' to requirements.txt and redeploy, or run `pip install wordcloud` locally.")
+    st.stop()
+  except Exception:
+    raise ImportError("Missing dependency 'wordcloud'. Install with 'pip install wordcloud' or add it to requirements.txt before deploying the Streamlit app.")
 
 wordcloud=WordCloud(width=1000,height=500).generate(str(msme_words))
 plt.imshow(wordcloud)
 
 import numpy as np
-from sklearn.feature_extraction.text import CountVectorizer
+try:
+  from sklearn.feature_extraction.text import CountVectorizer
+except ImportError:
+  try:
+    import streamlit as st
+    st.error("Missing dependency 'scikit-learn'. Add 'scikit-learn' to requirements.txt and redeploy, or run `pip install scikit-learn` locally.")
+    st.stop()
+  except Exception:
+    raise ImportError("Missing dependency 'scikit-learn'. Install with 'pip install scikit-learn' or add it to requirements.txt before deploying the Streamlit app.")
 
 DTM=CountVectorizer(max_features=30,stop_words="english")
 # max_features = number of columns/words to be considered (Top N)
@@ -112,7 +165,15 @@ X_DTM=DTM.fit_transform(sent['text'])
 
 pd.DataFrame(X_DTM.toarray(),columns=DTM.get_feature_names_out()).head()
 
-from sklearn.feature_extraction.text import TfidfVectorizer
+try:
+  from sklearn.feature_extraction.text import TfidfVectorizer
+except ImportError:
+  try:
+    import streamlit as st
+    st.error("Missing dependency 'scikit-learn'. Add 'scikit-learn' to requirements.txt and redeploy, or run `pip install scikit-learn` locally.")
+    st.stop()
+  except Exception:
+    raise ImportError("Missing dependency 'scikit-learn'. Install with 'pip install scikit-learn' or add it to requirements.txt before deploying the Streamlit app.")
 
 tfidf=TfidfVectorizer(max_features=300,stop_words="english")
 
