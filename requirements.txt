@@ -1,3 +1,6 @@
+wordcloud
+matplotlib
+pillow
 streamlit
 pypdf
 nltk
