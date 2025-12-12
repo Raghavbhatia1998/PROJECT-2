@@ -116,9 +116,6 @@ sent['sentiment'].value_counts()
 sent.head()
 
 try:
-  import tabula
-except ImportError as e:
-  raise ImportError("Missing dependency 'tabula-py'. Install with 'pip install tabula-py' and ensure Java is installed on the host.") from e
 
 import tempfile
 
@@ -128,14 +125,6 @@ st.subheader("📊 Extract Tables from PDF")
 with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
     tmp_file.write(uploaded_file.read())
     temp_pdf_path = tmp_file.name
-
-# Read ALL tables
-tables = tabula.read_pdf(temp_pdf_path, pages="all", multiple_tables=True)
-
-# Display tables
-for i, df in enumerate(tables):
-    st.write(f"### Table {i+1}")
-    st.dataframe(df)
 
 
 msme_words=word_tokenize(str(doc_txt))
