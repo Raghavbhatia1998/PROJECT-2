@@ -142,11 +142,31 @@ if len(msme_words) == 0:
     st.error("No words found to generate WordCloud. Check PDF content.")
 else:
     st.subheader("☁️ Word Cloud")
-    wc = WordCloud(width=1000, height=500, background_color="white")
-    wc_image = wc.generate(" ".join(msme_words))
+# ---------------- Fixed WordCloud Section ----------------
 
-    fig = plt.figure(figsize=(10, 5))
-    plt.imshow(wc_image, interpolation="bilinear")
+try:
+    from wordcloud import WordCloud
+except Exception:
+    st.error("WordCloud not installed. Add 'wordcloud' and 'pillow' to requirements.txt.")
+    st.stop()
+
+# Use extracted PDF text instead of msme_words
+clean_text = preprocess_text(text)
+
+tokens = word_tokenize(clean_text)
+
+stop = set(stopwords.words("english"))
+tokens = [w for w in tokens if w not in stop and len(w) > 2]
+
+if len(tokens) == 0:
+    st.error("No valid words found to generate a WordCloud.")
+else:
+    st.subheader("☁️ Word Cloud")
+    wc = WordCloud(width=1000, height=500, background_color="white")
+    image = wc.generate(" ".join(tokens))
+
+    fig = plt.figure(figsize=(12, 5))
+    plt.imshow(image, interpolation="bilinear")
     plt.axis("off")
     st.pyplot(fig)
 
