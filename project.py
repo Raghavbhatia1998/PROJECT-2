@@ -126,35 +126,30 @@ with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
     tmp_file.write(uploaded_file.read())
     temp_pdf_path = tmp_file.name
 
+# Use the extracted PDF text
+clean_text = preprocess_text(text)
 
-msme_words=word_tokenize(str(doc_txt))
+# Tokenize
+msme_words = word_tokenize(clean_text)
 
-len(msme_words)
-
+# Remove stopwords
 from nltk.corpus import stopwords
-en_stopwords=set(stopwords.words('english'))
-msme_words=[w for w in msme_words if not w in en_stopwords]
+stop = set(stopwords.words("english"))
+msme_words = [w for w in msme_words if w not in stop and len(w) > 2]
 
-msme_words=[w for w in msme_words if len(w)>2]
+# If no words found
+if len(msme_words) == 0:
+    st.error("No words found to generate WordCloud. Check PDF content.")
+else:
+    st.subheader("☁️ Word Cloud")
+    wc = WordCloud(width=1000, height=500, background_color="white")
+    wc_image = wc.generate(" ".join(msme_words))
 
-from nltk.probability import FreqDist
+    fig = plt.figure(figsize=(10, 5))
+    plt.imshow(wc_image, interpolation="bilinear")
+    plt.axis("off")
+    st.pyplot(fig)
 
-freq_words=FreqDist(msme_words)
-
-freq_words.most_common(20)
-
-try:
-  from wordcloud import WordCloud
-except ImportError:
-  try:
-    import streamlit as st
-    st.error("Missing dependency 'wordcloud'. Add 'wordcloud' to requirements.txt and redeploy, or run `pip install wordcloud` locally.")
-    st.stop()
-  except Exception:
-    raise ImportError("Missing dependency 'wordcloud'. Install with 'pip install wordcloud' or add it to requirements.txt before deploying the Streamlit app.")
-
-wordcloud=WordCloud(width=1000,height=500).generate(str(msme_words))
-plt.imshow(wordcloud)
 
 import numpy as np
 try:
