@@ -1,0 +1,10 @@
+streamlit
+pypdf
+nltk
+matplotlib
+wordcloud
+pandas
+numpy
+scikit-learn
+textblob
+tabula-py
