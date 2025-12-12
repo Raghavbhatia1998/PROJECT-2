@@ -42,13 +42,21 @@ except ImportError as e:
   raise ImportError("Missing dependency 'pypdf'. Install with 'pip install pypdf' or add it to requirements.txt before deploying the Streamlit app.") from e
 
 documents=[]
+import streamlit as st
+import pypdf
+
 uploaded_file = st.file_uploader("Upload a PDF", type=["pdf"])
 
-if uploaded_file:
-    reader = pypdf.PdfReader(uploaded_file)
-    text = ""
-    for page in reader.pages:
-        text += page.extract_text() or ""
+if uploaded_file is None:
+    st.warning("Please upload a PDF file to continue.")
+    st.stop()
+
+reader = pypdf.PdfReader(uploaded_file)
+
+text = ""
+for page in reader.pages:
+    text += page.extract_text() or ""
+
 
 
 try:
