@@ -11,8 +11,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-!pip install pypdf
-import pypdf
+try:
+  import pypdf
+except ImportError as e:
+  raise ImportError("Missing dependency 'pypdf'. Install with 'pip install pypdf' or add it to requirements.txt before deploying the Streamlit app.") from e
 
 documents=[]
 reader=pypdf.PdfReader("/content/RIL-Integrated-Annual-Report-2024-25.pdf")
@@ -57,8 +59,10 @@ sent['sentiment'].value_counts()
 
 sent.head()
 
-!pip install tabula-py
-import tabula
+try:
+  import tabula
+except ImportError as e:
+  raise ImportError("Missing dependency 'tabula-py'. Install with 'pip install tabula-py' and ensure Java is installed on the host.") from e
 
 tables=tabula.read_pdf("/content/RIL-Integrated-Annual-Report-2024-25.pdf",
                        pages="all")
