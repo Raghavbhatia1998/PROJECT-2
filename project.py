@@ -185,7 +185,7 @@ except ImportError:
 DTM=CountVectorizer(max_features=30,stop_words="english")
 # max_features = number of columns/words to be considered (Top N)
 
-X_DTM=DTM.fit_transform(sent['text'])
+
 
 pd.DataFrame(X_DTM.toarray(),columns=DTM.get_feature_names_out()).head()
 
