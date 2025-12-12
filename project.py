@@ -152,6 +152,21 @@ except Exception:
 
 # Use extracted PDF text instead of msme_words
 clean_text = preprocess_text(text)
+st.subheader("🔠 Top 20 Frequent Words")
+
+tokens = word_tokenize(clean_text)
+
+from nltk.corpus import stopwords
+stop = set(stopwords.words("english"))
+tokens = [w for w in tokens if w not in stop and len(w) > 2]
+
+from collections import Counter
+freq = Counter(tokens).most_common(20)
+
+freq_df = pd.DataFrame(freq, columns=["Word", "Frequency"])
+
+st.table(freq_df)
+
 
 tokens = word_tokenize(clean_text)
 
