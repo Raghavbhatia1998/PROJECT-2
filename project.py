@@ -9,7 +9,15 @@ Original file is located at
 
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
+try:
+  import matplotlib.pyplot as plt
+except ImportError:
+  try:
+    import streamlit as st
+    st.error("Missing dependency 'matplotlib'. Add 'matplotlib' to requirements.txt and redeploy, or run `pip install matplotlib` locally.")
+    st.stop()
+  except Exception:
+    raise ImportError("Missing dependency 'matplotlib'. Install with 'pip install matplotlib' or add it to requirements.txt before deploying the Streamlit app.")
 
 try:
   import pypdf
