@@ -115,7 +115,7 @@ sent['sentiment'].value_counts()
 
 sent.head()
 
-try:
+
 
 import tempfile
 
